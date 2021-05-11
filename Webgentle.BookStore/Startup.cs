@@ -26,43 +26,26 @@ namespace Webgentle.BookStore
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.Use(async (context, next) =>
-            //{
-            //    await context.Response.WriteAsync("Hello from my first middleware");
-            //    await next();
-            //    await context.Response.WriteAsync("Hello from my first middleware response");
-            //});
-
-            //app.Use(async (context, next) =>
-            //{
-            //    await context.Response.WriteAsync("Hello from my second middleware");
-            //    await next();
-            //    await context.Response.WriteAsync("Hello from my second middleware response");
-            //});
-
-            //app.Use(async (context, next) =>
-            //{
-            //    await context.Response.WriteAsync("Hello from my third middleware");
-            //    await next(); 
-            //});
-
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/nitish", async context =>
-                {
-                    await context.Response.WriteAsync("Hello Nitish!");
+                    if (env.IsEnvironment("Develop"))
+                    {
+                        await context.Response.WriteAsync("Hello from custom name");
+                    }
+                    //else if (env.IsProduction())
+                    //{
+                    //    await context.Response.WriteAsync("Hello from prod");
+                    //}
+                    //else if (env.IsStaging())
+                    //{
+                    //    await context.Response.WriteAsync("Hello from stag");
+                    //}
+                    else 
+                    await context.Response.WriteAsync(env.EnvironmentName);
                 });
             });
         }
